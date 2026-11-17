@@ -1,0 +1,321 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: Arial, sans-serif;
+  background: #0d0d14;
+  color: #e0e0e0;
+  overflow: hidden;
+}
+
+#app { width: 100vw; height: 100vh; position: relative; }
+
+/* ==== Экраны ==== */
+.screen {
+  display: none;
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  overflow-y: auto;
+}
+.screen.active { display: flex; }
+.screen.full { padding: 0; display: none; }
+.screen.full.active { display: block; }
+
+h1 { margin-bottom: 20px; color: #8fcaf1; }
+h3 { margin: 10px 0; color: #8fcaf1; font-size: 15px; }
+
+/* ==== Панели ==== */
+.panel {
+  background: #1a1a26;
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid #2a2a3a;
+  min-width: 320px;
+}
+.panel label { display: block; margin-bottom: 12px; }
+.panel input,
+.panel select {
+  width: 100%;
+  padding: 8px;
+  background: #0d0d14;
+  color: #e0e0e0;
+  border: 1px solid #333;
+  border-radius: 4px;
+  margin-top: 4px;
+}
+
+/* Чекбокс «Запомнить меня» */
+.remember-label {
+  display: flex !important;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  user-select: none;
+}
+.remember-label input {
+  width: auto !important;
+  margin: 0 !important;
+  cursor: pointer;
+}
+
+/* ==== Кнопки ==== */
+button {
+  padding: 8px 16px;
+  background: #2a4a6a;
+  color: #e0e0e0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin: 4px 4px 4px 0;
+  font-size: 14px;
+}
+button:hover { background: #3a5a7a; }
+button:active { transform: translateY(1px); }
+
+/* ==== Ошибки ==== */
+.error {
+  color: #ff6666;
+  margin-top: 10px;
+  min-height: 18px;
+  font-size: 13px;
+}
+
+/* ==== Лобби: карточки персонажей ==== */
+.char-list {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.char-card {
+  background: #1a1a26;
+  padding: 15px;
+  border-radius: 8px;
+  border: 1px solid #2a2a3a;
+  cursor: pointer;
+  width: 160px;
+  min-height: 160px;
+  transition: border-color 0.15s;
+  font-size: 14px;
+  line-height: 1.5;
+}
+.char-card:hover { border-color: #8fcaf1; }
+.char-card.empty {
+  border-style: dashed;
+  border-color: #444;
+  background: #14141c;
+}
+.char-card.empty:hover {
+  border-color: #8fcaf1;
+  background: #1a1a26;
+}
+
+/* ==== Карты ==== */
+.map-list {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+  justify-content: center;
+}
+.map-card {
+  background: #1a1a26;
+  padding: 15px;
+  border-radius: 8px;
+  border: 1px solid #2a2a3a;
+  cursor: pointer;
+  min-width: 200px;
+  transition: border-color 0.15s;
+}
+.map-card:hover { border-color: #8fcaf1; }
+
+/* ==== Игровое полотно ==== */
+#canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #12121a;
+  display: block;
+}
+
+/* ==== HUD ==== */
+#hud {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+#hud-info {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: rgba(0, 0, 0, 0.65);
+  padding: 10px 14px;
+  border-radius: 4px;
+  font-size: 14px;
+  line-height: 1.6;
+  border: 1px solid #2a2a3a;
+}
+#hud-buttons {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  pointer-events: auto;
+}
+#hud-buttons button { margin-left: 6px; }
+
+/* ==== Панели в игре ==== */
+#inventory-panel {
+  position: absolute;
+  right: 20px;
+  top: 80px;
+  pointer-events: auto;
+  z-index: 10;
+}
+#char-panel {
+  position: absolute;
+  left: 20px;
+  top: 80px;
+  pointer-events: auto;
+  z-index: 10;
+}
+
+/* ==== Сетки слотов ==== */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(6, 48px);
+  gap: 4px;
+}
+.equip-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 48px);
+  gap: 4px;
+}
+
+/* ==== Слоты ==== */
+.slot {
+  width: 48px;
+  height: 48px;
+  background: #0d0d14;
+  border: 1px solid #333;
+  border-radius: 4px;
+  position: relative;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  text-align: center;
+  overflow: hidden;
+  transition: background 0.1s, border-color 0.1s;
+}
+.slot.occupied {
+  background: #1a2a3a;
+  border-color: #3a5a7a;
+}
+.slot.drop-target {
+  border-color: #8fcaf1;
+  background: #1a3a5a;
+  box-shadow: 0 0 6px rgba(143, 202, 241, 0.5);
+}
+.slot .qty {
+  position: absolute;
+  bottom: 1px;
+  right: 3px;
+  font-size: 10px;
+  color: #ffcc00;
+  font-weight: bold;
+}
+.slot .label {
+  position: absolute;
+  top: 1px;
+  left: 3px;
+  font-size: 8px;
+  color: #888;
+}
+
+/* ==== Тултип ==== */
+.tooltip {
+  position: absolute;
+  background: rgba(10, 10, 20, 0.95);
+  border: 1px solid #3a5a7a;
+  padding: 8px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  pointer-events: none;
+  max-width: 220px;
+  z-index: 100;
+  line-height: 1.5;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+}
+.tooltip strong { color: #ffcc00; }
+
+/* ==== Утилиты ==== */
+.hidden { display: none !important; }
+
+/* ==== Скроллбар (для красоты) ==== */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: #0d0d14; }
+::-webkit-scrollbar-thumb { background: #2a2a3a; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #3a3a4a; }
+
+/* Иконки в слотах */
+.slot .icon {
+  width: 32px;
+  height: 32px;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* ===== Магазин ===== */
+#shop-panel {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 480px;
+  max-height: 80vh;
+  z-index: 100;
+  pointer-events: auto;
+  overflow-y: auto;
+}
+#shop-title { margin-bottom: 12px; }
+.shop-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 8px;
+  border-bottom: 1px solid #2a2a3a;
+  font-size: 13px;
+}
+.shop-row:last-child { border-bottom: none; }
+.shop-icon {
+  width: 32px;
+  height: 32px;
+  image-rendering: pixelated;
+  flex-shrink: 0;
+}
+.shop-info {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 2px;
+}
+.shop-price { color: #ffcc00; font-size: 12px; }
+.shop-stats { color: #8fcaf1; font-size: 11px; }
+.shop-row button {
+  padding: 4px 10px;
+  font-size: 12px;
+  flex-shrink: 0;
+}

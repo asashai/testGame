@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>RF Online MVP</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="app">
+
+  <!-- ==== ЛОГИН ==== -->
+  <div id="screen-login" class="screen active">
+    <h1>RF Online MVP</h1>
+    <div class="panel">
+      <label>Логин
+        <input id="login" type="text" autocomplete="username">
+      </label>
+      <label>Пароль
+        <input id="password" type="password" autocomplete="current-password">
+      </label>
+      <label class="remember-label">
+        <input id="remember" type="checkbox"> Запомнить меня
+      </label>
+      <button id="btn-login">Войти</button>
+      <div id="login-error" class="error"></div>
+    </div>
+  </div>
+
+  <!-- ==== ЛОББИ ==== -->
+  <div id="screen-lobby" class="screen">
+    <h1>Лобби</h1>
+    <div id="char-list" class="char-list"></div>
+    <div style="margin-top: 20px;">
+      <button id="btn-create">Создать персонажа</button>
+      <button id="btn-logout" style="background:#6a2a2a;">Выйти из аккаунта</button>
+    </div>
+  </div>
+
+  <!-- ==== СОЗДАНИЕ ПЕРСОНАЖА ==== -->
+  <div id="screen-create" class="screen">
+    <h1>Создание персонажа</h1>
+    <div class="panel">
+      <label>Имя
+        <input id="new-name" type="text" maxlength="20">
+      </label>
+      <label>Раса
+        <select id="new-race">
+          <option value="bellato">Беллато</option>
+          <option value="cora">Кора</option>
+          <option value="acretia">Акретия</option>
+        </select>
+      </label>
+      <label id="gender-wrap">Пол
+        <select id="new-gender">
+          <option value="male">Мужской</option>
+          <option value="female">Женский</option>
+        </select>
+      </label>
+      <div style="margin-top: 10px;">
+        <button id="btn-submit-create">Создать</button>
+        <button id="btn-cancel-create" style="background:#444;">Назад</button>
+      </div>
+      <div id="create-error" class="error"></div>
+    </div>
+  </div>
+
+  <!-- ==== ВЫБОР КАРТЫ ==== -->
+  <div id="screen-mapselect" class="screen">
+    <h1>Выбор карты</h1>
+    <div id="map-list" class="map-list"></div>
+    <div style="margin-top: 20px;">
+      <button id="btn-back-lobby" style="background:#444;">Назад в лобби</button>
+    </div>
+  </div>
+
+  <!-- ==== ИГРА ==== -->
+  <div id="screen-game" class="screen full">
+    <canvas id="canvas"></canvas>
+
+    <div id="hud">
+      <div id="hud-info"></div>
+      <div id="hud-buttons">
+        <button id="btn-inv">Инвентарь (I)</button>
+        <button id="btn-char">Персонаж (C)</button>
+        <button id="btn-exit" style="background:#6a2a2a;">Выйти</button>
+      </div>
+    </div>
+
+    <div id="inventory-panel" class="panel hidden">
+      <h3>Инвентарь</h3>
+      <div id="inv-grid" class="grid"></div>
+    </div>
+
+    <div id="char-panel" class="panel hidden">
+      <h3>Персонаж</h3>
+      <div id="char-stats"></div>
+      <h3>Экипировка</h3>
+      <div id="equip-grid" class="equip-grid"></div>
+    </div>
+
+    <!-- ==== МАГАЗИН ==== -->
+    <div id="shop-panel" class="panel hidden">
+      <h3 id="shop-title">Магазин</h3>
+      <div style="max-height: 260px; overflow-y: auto; margin-bottom: 10px;">
+        <div id="shop-list"></div>
+      </div>
+      <h3>Продажа</h3>
+      <div style="max-height: 200px; overflow-y: auto;">
+        <div id="sell-list"></div>
+      </div>
+      <button id="shop-close" style="margin-top: 10px;">Закрыть</button>
+    </div>
+
+    <div id="tooltip" class="tooltip hidden"></div>
+  </div>
+
+</div>
+<script src="game.js"></script>
+</body>
+</html>
